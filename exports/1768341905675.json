@@ -1,0 +1,15 @@
+{
+  "timestamp": 1768341905675,
+  "operation": {
+    "id": "settings:config:package"
+  },
+  "projectId": "build-a-space-shooter-survival",
+  "files": [
+    {
+      "path": "/mnt/data/build-a-space-shooter-survival/backend/.env",
+      "type": "text",
+      "size": 341,
+      "dependencies": false
+    }
+  ]
+}
