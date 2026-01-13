@@ -1,0 +1,9 @@
+{
+  "features": [
+    {
+      "id": "input-handling-simultaneous",
+      "title": "Handle simultaneous input combinations like moving and shooting at the same time without conflicts or performance issues",
+      "passes": true
+    }
+  ]
+}
