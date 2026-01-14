@@ -13,7 +13,7 @@
     {
       "id": "enemy-types",
       "title": "Enemy Variations: Regular, Zigzag, and Fast enemies with different behaviors and scores",
-      "passes": false,
+      "passes": true,
       "selected": true
     },
     {

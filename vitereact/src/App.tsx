@@ -21,7 +21,7 @@ function GameCanvas() {
   const projectileIdCounter = useRef(0);
   
   // Enemy State
-  const enemies = useRef<{id: number, x: number, y: number, width: number, height: number, speed: number, type: 'regular' | 'zigzag' | 'fast'}[]>([]);
+  const enemies = useRef<{id: number, x: number, y: number, width: number, height: number, speed: number, type: 'regular' | 'zigzag' | 'fast', initialX: number}[]>([]);
   const lastSpawnTime = useRef(0);
   const enemyIdCounter = useRef(0);
   const score = useRef(0);
@@ -102,14 +102,31 @@ function GameCanvas() {
       // Spawn Enemies
       const now = Date.now();
       if (now - lastSpawnTime.current > 1000) { // Spawn every 1 second
+          const rand = Math.random();
+          let type: 'regular' | 'zigzag' | 'fast' = 'regular';
+          let speed = 3;
+          let width = 30;
+          
+          if (rand < 0.2) { // 20% Fast
+              type = 'fast';
+              speed = 7;
+          } else if (rand < 0.5) { // 30% Zigzag (0.2 to 0.5)
+              type = 'zigzag';
+              speed = 3;
+          }
+          // Remaining 50% Regular
+
+          const x = Math.random() * (canvas.width - 40) + 20;
+
           enemies.current.push({
               id: enemyIdCounter.current++,
-              x: Math.random() * (canvas.width - 40) + 20,
+              x: x,
               y: -40,
-              width: 30,
+              width: width,
               height: 30,
-              speed: 3,
-              type: 'regular'
+              speed: speed,
+              type: type,
+              initialX: x
           });
           lastSpawnTime.current = now;
       }
@@ -117,6 +134,13 @@ function GameCanvas() {
       // Move Enemies
       enemies.current.forEach(enemy => {
           enemy.y += enemy.speed;
+          if (enemy.type === 'zigzag') {
+              // Zigzag motion: sine wave
+              enemy.x = enemy.initialX + Math.sin(enemy.y * 0.05) * 50;
+              
+              // Clamp to screen bounds to avoid getting stuck or hidden
+              enemy.x = Math.max(0, Math.min(canvas.width - enemy.width, enemy.x));
+          }
       });
 
       // Remove off-screen enemies
@@ -137,7 +161,7 @@ function GameCanvas() {
                   // Hit!
                   projectiles.current.splice(i, 1);
                   enemies.current.splice(j, 1);
-                  score.current += 10;
+                  score.current += (enemy.type === 'fast' ? 20 : 10);
                   break; // Bullet hit one enemy, stop checking this bullet
               }
           }
@@ -185,7 +209,11 @@ function GameCanvas() {
 
       // Draw Enemies
       enemies.current.forEach(enemy => {
-          ctx.fillStyle = 'red';
+          let color = 'red';
+          if (enemy.type === 'zigzag') color = 'orange';
+          if (enemy.type === 'fast') color = 'yellow';
+          
+          ctx.fillStyle = color;
           ctx.beginPath();
           ctx.moveTo(enemy.x + enemy.width/2, enemy.y);
           ctx.lineTo(enemy.x + enemy.width, enemy.y + enemy.height/2);

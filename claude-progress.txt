@@ -6,3 +6,14 @@ Session 2:
   - Added Game Over state and screen.
   - Added Score tracking and display.
   - Verified build passes.
+
+Session 3:
+- Implemented Enemy Variations:
+  - Added `type` to Enemy interface (regular, zigzag, fast).
+  - Updated spawn logic to include random enemy types (Regular 50%, Zigzag 30%, Fast 20%).
+  - Implemented distinct movement patterns:
+    - Zigzag: Sine wave motion.
+    - Fast: Higher speed (7 vs 3).
+  - Updated rendering to distinguish types by color (Red, Orange, Yellow).
+  - Updated scoring: Fast enemies are worth 20 points, others 10.
+  - Verified build passes.

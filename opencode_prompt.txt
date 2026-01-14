@@ -60,7 +60,7 @@ Neon glow aesthetic throughout
 Smooth 60fps gameplay
 
 ## Current User Request
-fix the preview
+Enemy Variations (Regular, Zigzag, Fast).
 
 Start by running the startup sequence, then pick the next feature to implement.
 
