@@ -4,6 +4,32 @@
       "id": "input-handling-simultaneous",
       "title": "Handle simultaneous input combinations like moving and shooting at the same time without conflicts or performance issues",
       "passes": true
+    },
+    {
+      "id": "core-gameplay-enemies-collision",
+      "title": "Core Gameplay: Enemy spawning, movement, and collision detection (Player vs Enemy, Bullet vs Enemy)",
+      "passes": true
+    },
+    {
+      "id": "enemy-types",
+      "title": "Enemy Variations: Regular, Zigzag, and Fast enemies with different behaviors and scores",
+      "passes": false,
+      "selected": true
+    },
+    {
+      "id": "score-difficulty",
+      "title": "Progression: Score tracking and increasing difficulty (spawn rate/speed) over time",
+      "passes": false
+    },
+    {
+      "id": "ui-screens",
+      "title": "UI: Main Menu, Game Over Screen, and HUD",
+      "passes": false
+    },
+    {
+      "id": "visual-effects",
+      "title": "Visuals: Parallax background, Screen shake, Particle explosions, and Glow effects",
+      "passes": false
     }
   ]
 }

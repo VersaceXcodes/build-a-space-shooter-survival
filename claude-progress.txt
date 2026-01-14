@@ -1,0 +1,8 @@
+Session 2:
+- Fixed preview by creating and running init.sh to install dependencies and start vite server.
+- Implemented Core Gameplay feature:
+  - Added Enemy state and spawning logic (Regular enemies).
+  - Implemented Collision Detection (Bullet vs Enemy, Player vs Enemy).
+  - Added Game Over state and screen.
+  - Added Score tracking and display.
+  - Verified build passes.
