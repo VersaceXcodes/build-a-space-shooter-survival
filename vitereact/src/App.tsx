@@ -25,6 +25,9 @@ function GameCanvas() {
   const lastSpawnTime = useRef(0);
   const enemyIdCounter = useRef(0);
   const score = useRef(0);
+  const highScore = useRef(Number(localStorage.getItem('highScore') || 0));
+  const startTime = useRef(Date.now());
+  const difficulty = useRef(1);
   const gameOver = useRef(false);
 
   useEffect(() => {
@@ -50,6 +53,8 @@ function GameCanvas() {
         projectiles.current = [];
         enemies.current = [];
         score.current = 0;
+        startTime.current = Date.now();
+        difficulty.current = 1;
         gameOver.current = false;
         keys.current.clear();
     };
@@ -99,24 +104,29 @@ function GameCanvas() {
       // Remove off-screen projectiles
       projectiles.current = projectiles.current.filter(proj => proj.y > 0);
 
+      // Difficulty Progression
+      difficulty.current = 1 + (Date.now() - startTime.current) / 30000; // Difficulty increases by 1 every 30s
+
       // Spawn Enemies
       const now = Date.now();
-      if (now - lastSpawnTime.current > 1000) { // Spawn every 1 second
+      const spawnInterval = 1000 / difficulty.current;
+      if (now - lastSpawnTime.current > spawnInterval) { // Dynamic spawn rate
           const rand = Math.random();
           let type: 'regular' | 'zigzag' | 'fast' = 'regular';
-          let speed = 3;
+          let baseSpeed = 3;
           let width = 30;
           
           if (rand < 0.2) { // 20% Fast
               type = 'fast';
-              speed = 7;
+              baseSpeed = 7;
           } else if (rand < 0.5) { // 30% Zigzag (0.2 to 0.5)
               type = 'zigzag';
-              speed = 3;
+              baseSpeed = 3;
           }
           // Remaining 50% Regular
 
           const x = Math.random() * (canvas.width - 40) + 20;
+          const currentSpeed = baseSpeed * (1 + (difficulty.current - 1) * 0.5); // Speed increases slower than spawn rate
 
           enemies.current.push({
               id: enemyIdCounter.current++,
@@ -124,7 +134,7 @@ function GameCanvas() {
               y: -40,
               width: width,
               height: 30,
-              speed: speed,
+              speed: currentSpeed,
               type: type,
               initialX: x
           });
@@ -176,6 +186,10 @@ function GameCanvas() {
               p.y + p.height > enemy.y
           ) {
               gameOver.current = true;
+              if (score.current > highScore.current) {
+                  highScore.current = score.current;
+                  localStorage.setItem('highScore', highScore.current.toString());
+              }
           }
       }
     };
@@ -227,6 +241,8 @@ function GameCanvas() {
       ctx.fillStyle = 'white';
       ctx.font = '20px monospace';
       ctx.fillText(`Score: ${score.current}`, 10, 30);
+      ctx.fillText(`High Score: ${highScore.current}`, 10, 60);
+      ctx.fillText(`Diff: ${difficulty.current.toFixed(1)}`, 10, 90);
 
       // Game Over Screen
       if (gameOver.current) {
@@ -236,11 +252,18 @@ function GameCanvas() {
           ctx.fillStyle = 'white';
           ctx.font = '40px monospace';
           ctx.textAlign = 'center';
-          ctx.fillText('GAME OVER', ctx.canvas.width/2, ctx.canvas.height/2 - 20);
+          ctx.fillText('GAME OVER', ctx.canvas.width/2, ctx.canvas.height/2 - 40);
           
           ctx.font = '20px monospace';
-          ctx.fillText(`Final Score: ${score.current}`, ctx.canvas.width/2, ctx.canvas.height/2 + 20);
-          ctx.fillText('Press ENTER to Restart', ctx.canvas.width/2, ctx.canvas.height/2 + 60);
+          ctx.fillText(`Final Score: ${score.current}`, ctx.canvas.width/2, ctx.canvas.height/2);
+          
+          if (score.current >= highScore.current && score.current > 0) {
+              ctx.fillStyle = 'yellow';
+              ctx.fillText('NEW HIGH SCORE!', ctx.canvas.width/2, ctx.canvas.height/2 + 30);
+              ctx.fillStyle = 'white';
+          }
+          
+          ctx.fillText('Press ENTER to Restart', ctx.canvas.width/2, ctx.canvas.height/2 + 70);
           ctx.textAlign = 'left'; // Reset
       }
     };

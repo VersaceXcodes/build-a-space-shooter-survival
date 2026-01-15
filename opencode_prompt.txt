@@ -60,7 +60,8 @@ Neon glow aesthetic throughout
 Smooth 60fps gameplay
 
 ## Current User Request
-Enemy Variations (Regular, Zigzag, Fast).
+just allow all hosts .. as modal tunnel url can change Blocked request. This host ("ta-01kf11tkdq6tzzccckdd3qxfr9-5173.wo-j38k7or0a5s0egt4drklirpo8.w.modal.host") is not allowed.
+To allow this host, add "ta-01kf11tkdq6tzzccckdd3qxfr9-5173.wo-j38k7or0a5s0egt4drklirpo8.w.modal.host" to `server.allowedHosts` in vite.config.js.
 
 Start by running the startup sequence, then pick the next feature to implement.
 

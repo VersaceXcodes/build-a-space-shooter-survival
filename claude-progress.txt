@@ -17,3 +17,15 @@ Session 3:
   - Updated rendering to distinguish types by color (Red, Orange, Yellow).
   - Updated scoring: Fast enemies are worth 20 points, others 10.
   - Verified build passes.
+
+Session 4:
+- Addressed blocked host issue in `vite.config.ts` by setting `allowedHosts: true`.
+- Implemented Progression and Difficulty:
+  - Added `startTime` and `difficulty` state to track game duration.
+  - Implemented difficulty scaling: Difficulty factor increases over time (doubles every 30s).
+  - Linked Spawn Rate to difficulty (spawns faster).
+  - Linked Enemy Speed to difficulty (moves faster).
+  - Added High Score tracking using `localStorage`.
+  - Updated Game Over screen to show High Score and "New High Score" celebration.
+  - Displayed current Difficulty level on HUD.
+  - Verified build passes.

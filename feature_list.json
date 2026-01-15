@@ -19,7 +19,7 @@
     {
       "id": "score-difficulty",
       "title": "Progression: Score tracking and increasing difficulty (spawn rate/speed) over time",
-      "passes": false
+      "passes": true
     },
     {
       "id": "ui-screens",
